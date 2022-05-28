@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>YouCube - блог для любителей головоломок</title>
+  <script>
+    class Blog {
+      constructor(body, date) {
+        this.body = body;
+        this.date = date;
+      }
+    }
+
+    let blog = [new Blog("Получила новый  кубик. Это настоящая жемчужина.", "04/14/2022"),
+    new Blog("Сложила новый кубик, но, сейчас мне скучно и уже собираюсь покупать новый.", "04/19/2022"),
+    new Blog("Пришлось поломать голову над новым кубиком. А не пора ли вздремнуть?", "04/16/2022"),
+    new Blog("Нашла кубик 7x7x7 в интернет-магазине. Ура! Возможно он станет лучшим.", "04/21/2022"),
+    new Blog("Встретилась с товарищами по кубу, чтобы обсудить перспективы куба 7x7x7. Смешанные чувства.", "05/19/2022")];
+
+    function showBlog(numEntries) {
+
+      // При необходимости редактируем количество записей для показа всего блога
+      if (!numEntries)
+        numEntries = blog.length;
+
+      // Показать записи блога
+      let i = 0, blogText = "";
+      while (i < blog.length && i < numEntries) {
+
+        // Используем серый фон для чётных записей блога
+        if (i % 2 == 0)
+          blogText += "<p style='background-color:#EEEEEE'>";
+        else
+          blogText += "<p>";
+
+        // Генерируем и форматируем HTML код блога
+        blogText += "<strong>" +
+          blog[i].date + "</strong><br>" +
+          blog[i].body + "</p>";
+        i++;
+      }
+
+      // Располагаем HTML-код блога на странице
+      document.getElementById("blog").innerHTML = blogText;
+    }
+  </script>
+</head>
+
+<body onload="showBlog(5);">
+  <h3>YouCube - блог для любителей головоломок</h3>
+  <img src="cube.png" alt="YouCube">
+  <div id="blog"></div>
+  <input type="button" id="showall" value="Показать все записи блога" onclick="showBlog();">
+</body>
+
+</html>

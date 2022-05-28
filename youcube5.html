@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>YouCube - блог для любителей головоломок</title>
+  <script>
+    class Blog {
+      constructor(body, date) {
+        this.body = body;
+        this.date = date;
+      }
+    }
+
+    let blog = [new Blog("Получила новый  кубик. Это настоящая жемчужина.", new Date("04/14/2022")),
+    new Blog("Сложила новый кубик, но, сейчас мне скучно и уже собираюсь покупать новый.", new Date("04/19/2022")),
+    new Blog("Пришлось поломать голову над новым кубиком. А не пора ли вздремнуть?", new Date("04/16/2022")),
+    new Blog("Нашла кубик 7x7x7 в интернет-магазине. Ура! Возможно он станет лучшим.", new Date("04/21/2022")),
+    new Blog("Встретилась с товарищами по кубу, чтобы обсудить перспективы куба 7x7x7. Смешанные чувства.", new Date("05/19/2022"))];
+
+    // Bubble Sorting 
+    function compare(arr, n) {
+      if (n === 1) return;
+
+      for (let i = 0; i < n - 1; i += 1) {
+        if (-arr[i].date > -arr[i + 1].date) {
+          let temp = arr[i]
+          arr[i] = arr[i + 1]
+          arr[i + 1] = temp;
+        }
+      }
+      compare(arr, n - 1);
+    }
+
+    function showBlog(numEntries) {
+      compare(blog, blog.length);
+
+      // При необходимости редактируем количество записей для показа всего блога
+      if (!numEntries)
+        numEntries = blog.length;
+
+      // Показать записи блога
+      let i = 0, blogText = "";
+      while (i < blog.length && i < numEntries) {
+
+        // Используем серый фон для чётных записей блога
+        if (i % 2 == 0)
+          blogText += "<p style='background-color:#EEEEEE'>";
+        else
+          blogText += "<p>";
+        blogText += `
+    <strong>${blog[i].date.toLocaleDateString("en-US")}</strong> с каким промежутком они написаны - ${(((i < blog.length - 1 ? blog[i + 1].date : 0) - (i < blog.length - 1 ? blog[i].date : 0)) / (1000 * 60 * 60 * 24)) * (-1)} days <br>
+      ${blog[i].body}</p>`;
+        i++;
+      }
+
+      // Располагаем HTML-код блога на странице
+      document.getElementById("blog").innerHTML = blogText;
+    }
+
+    function searchBlog() {
+      const searchText = document.getElementById('searchtext').value;
+      if (searchText !== '') {
+        for (let i = 0; i < blog.length; i++) {
+          if (blog[i].body.toLowerCase().indexOf(searchText.toLowerCase()) != -1) {
+            alert(`[${blog[i].date.toLocaleDateString("en-US")}] ${blog[i].body}`)
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body onload="showBlog(5);">
+  <h3>YouCube - блог для любителей головоломок</h3>
+  <img src="cube.png" alt="YouCube">
+  <form>
+    <label for="search"><input type="button" value="Search" onclick="searchBlog()"></input></label>
+    <input type="text" id="searchtext" name="search">
+  </form>
+  <div id="blog"></div>
+  <input type="button" id="showall" value="Показать все записи блога" onclick="showBlog();">
+</body>
+
+</html>
